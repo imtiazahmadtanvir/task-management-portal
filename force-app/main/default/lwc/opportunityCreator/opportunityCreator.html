@@ -1,0 +1,64 @@
+<template>
+    <lightning-card title="Create Opportunity" icon-name="standard:opportunity">
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Opportunity Name"
+                value={opportunityName}
+                onchange={handleChange}
+                data-field="opportunityName"
+                required>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Amount"
+                value={amount}
+                onchange={handleChange}
+                data-field="amount">
+            </lightning-input>
+
+            <lightning-input
+                type="date"
+                label="Close Date"
+                value={closeDate}
+                onchange={handleChange}
+                data-field="closeDate"
+                required>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Stage"
+                value={stageName}
+                options={stageOptions}
+                onchange={handleChange}
+                data-field="stageName"
+                required>
+            </lightning-combobox>
+
+            <lightning-record-edit-form object-api-name="Opportunity">
+
+                <lightning-input-field
+                    field-name="AccountId"
+                    onchange={handleAccountChange}>
+                </lightning-input-field>
+
+            </lightning-record-edit-form>
+
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Create Opportunity"
+                    onclick={createOpportunity}>
+                </lightning-button>
+            </div>
+
+            <template if:true={message}>
+                <div class="slds-m-top_medium">
+                    {message}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
