@@ -1,0 +1,36 @@
+.column {
+    background: #f3f3f3;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 300px;
+}
+
+.column-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.task-card {
+    background: white;
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.task-key {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.task-summary {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.task-info {
+    font-size: 12px;
+    margin-top: 3px;
+}

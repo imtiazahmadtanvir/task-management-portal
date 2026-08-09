@@ -1,0 +1,114 @@
+<template>
+    <lightning-card title="Jira Task Board" icon-name="standard:task">
+
+        <div class="slds-p-around_medium">
+
+            <div class="slds-grid slds-wrap slds-gutters">
+
+                <!-- TO DO -->
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="column">
+                        <h2 class="column-title">
+                            To Do
+                        </h2>
+
+                        <template for:each={todoTasks} for:item="task">
+                            <div
+                                key={task.id}
+                                class="task-card slds-m-bottom_small">
+
+                                <div class="task-key">
+                                    {task.key}
+                                </div>
+
+                                <div class="task-summary">
+                                    {task.summary}
+                                </div>
+
+                                <div class="task-info">
+                                    Priority: {task.priority}
+                                </div>
+
+                                <div class="task-info">
+                                    Assignee: {task.assignee}
+                                </div>
+
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+
+                <!-- IN PROGRESS -->
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="column">
+                        <h2 class="column-title">
+                            In Progress
+                        </h2>
+
+                        <template for:each={inProgressTasks} for:item="task">
+                            <div
+                                key={task.id}
+                                class="task-card slds-m-bottom_small">
+
+                                <div class="task-key">
+                                    {task.key}
+                                </div>
+
+                                <div class="task-summary">
+                                    {task.summary}
+                                </div>
+
+                                <div class="task-info">
+                                    Priority: {task.priority}
+                                </div>
+
+                                <div class="task-info">
+                                    Assignee: {task.assignee}
+                                </div>
+
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+
+                <!-- DONE -->
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="column">
+                        <h2 class="column-title">
+                            Done
+                        </h2>
+
+                        <template for:each={doneTasks} for:item="task">
+                            <div
+                                key={task.id}
+                                class="task-card slds-m-bottom_small">
+
+                                <div class="task-key">
+                                    {task.key}
+                                </div>
+
+                                <div class="task-summary">
+                                    {task.summary}
+                                </div>
+
+                                <div class="task-info">
+                                    Priority: {task.priority}
+                                </div>
+
+                                <div class="task-info">
+                                    Assignee: {task.assignee}
+                                </div>
+
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+</template>
