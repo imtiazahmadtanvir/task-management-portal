@@ -221,9 +221,9 @@
         {
           "active": true,
           "defaultValue": false,
-          "label": "In Progress",
+          "label": "Done",
           "validFor": null,
-          "value": "In Progress"
+          "value": "Done"
         },
         {
           "active": true,

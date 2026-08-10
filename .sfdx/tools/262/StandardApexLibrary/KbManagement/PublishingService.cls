@@ -122,7 +122,7 @@ global class PublishingService {
   global static void scheduleForPublication(String articleId, Datetime scheduledDate) {}
 
   /**
-   * Sets a draft translation that is ready for publication back to “in progress” status.
+   * Sets a draft translation that is ready for publication back to “Done” status.
    * @param articleVersionId 
    */
   global static void setTranslationToIncomplete(String articleVersionId) {}

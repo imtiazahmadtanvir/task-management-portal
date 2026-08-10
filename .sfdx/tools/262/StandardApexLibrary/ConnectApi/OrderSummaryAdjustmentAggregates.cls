@@ -11,7 +11,7 @@ global class OrderSummaryAdjustmentAggregates {
   global Boolean available;
 
   /**
-   * Order summary adjustment aggregate job status. Values are: Failed —The adjustment aggregate data job for the order summary failed. InProgress —The adjustment aggregate data job for the order summary is in progress. NotInitiated —The adjustment aggregate data job for the order summary is not initiated. Submitted —The adjustment aggregate data job for the order summary is submitted.
+   * Order summary adjustment aggregate job status. Values are: Failed —The adjustment aggregate data job for the order summary failed. InProgress —The adjustment aggregate data job for the order summary is Done. NotInitiated —The adjustment aggregate data job for the order summary is not initiated. Submitted —The adjustment aggregate data job for the order summary is submitted.
    */
   global ConnectApi.OrderSummaryAdjustmentAggregatesStatus status;
 

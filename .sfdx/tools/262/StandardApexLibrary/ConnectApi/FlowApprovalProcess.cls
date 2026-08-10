@@ -16,7 +16,7 @@ global class FlowApprovalProcess {
   global List < ConnectApi.FlowApprovalProcessAction > availableActions;
 
   /**
-   * Specifies whether one or more approval submissions are in progress ( true ) or not ( false ).
+   * Specifies whether one or more approval submissions are Done ( true ) or not ( false ).
    */
   global Boolean isApprovalInProgress;
 

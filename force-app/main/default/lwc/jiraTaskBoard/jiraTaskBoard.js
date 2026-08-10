@@ -15,7 +15,7 @@ export default class JiraTaskBoard extends LightningElement {
             id: '2',
             key: 'TM-2',
             summary: 'Contact client',
-            status: 'To Do',
+            status: 'In Progress',
             priority: 'Medium',
             assignee: 'Sarah'
         },
@@ -23,7 +23,7 @@ export default class JiraTaskBoard extends LightningElement {
             id: '3',
             key: 'TM-3',
             summary: 'Prepare proposal',
-            status: 'In Progress',
+            status: 'Done',
             priority: 'High',
             assignee: 'Mike'
         },
@@ -31,7 +31,7 @@ export default class JiraTaskBoard extends LightningElement {
             id: '4',
             key: 'TM-4',
             summary: 'Schedule meeting',
-            status: 'In Progress',
+            status: 'Done',
             priority: 'Medium',
             assignee: 'Sarah'
         },
@@ -46,14 +46,20 @@ export default class JiraTaskBoard extends LightningElement {
     ];
 
     get todoTasks() {
-        return this.tasks.filter(task => task.status === 'To Do');
+        return this.tasks.filter(
+            task => task.status === 'To Do'
+        );
     }
 
     get inProgressTasks() {
-        return this.tasks.filter(task => task.status === 'In Progress');
+        return this.tasks.filter(
+            task => task.status === 'In Progress'
+        );
     }
 
     get doneTasks() {
-        return this.tasks.filter(task => task.status === 'Done');
+        return this.tasks.filter(
+            task => task.status === 'Done'
+        );
     }
 }
