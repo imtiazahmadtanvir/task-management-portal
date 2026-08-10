@@ -1,109 +1,253 @@
 <template>
-    <lightning-card title="Jira Task Board" icon-name="standard:task">
+
+    <lightning-card
+        title="Jira Task Board"
+        icon-name="standard:task">
+
+        <!-- ===================================================== -->
+        <!-- STEP 9: LAST SYNCED + REFRESH -->
+        <!-- ===================================================== -->
+
+        <div class="slds-p-horizontal_medium slds-p-top_small">
+
+            <div class="slds-grid
+                        slds-grid_align-spread
+                        slds-grid_vertical-align-center">
+
+                <!-- LAST SYNCED -->
+
+                <div>
+
+                    <span class="slds-text-body_small">
+                        Last Synced:
+                    </span>
+
+                    <strong class="slds-m-left_x-small">
+                        {formattedLastSynced}
+                    </strong>
+
+                </div>
+
+
+                <!-- REFRESH BUTTON -->
+
+                <lightning-button
+                    label="Refresh"
+                    icon-name="utility:refresh"
+                    onclick={handleRefresh}
+                    disabled={isLoading}>
+                </lightning-button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- ERROR MESSAGE -->
+        <!-- ===================================================== -->
+
+        <template if:true={errorMessage}>
+
+            <div class="slds-p-around_medium">
+
+                <div
+                    class="slds-notify
+                           slds-notify_alert
+                           slds-alert_error"
+                    role="alert">
+
+                    <span class="slds-assistive-text">
+                        Error
+                    </span>
+
+                    {errorMessage}
+
+                </div>
+
+            </div>
+
+        </template>
+
+
+        <!-- ===================================================== -->
+        <!-- LOADING SPINNER -->
+        <!-- ===================================================== -->
+
+        <template if:true={isLoading}>
+
+            <div class="slds-p-around_medium
+                        slds-align_absolute-center">
+
+                <lightning-spinner
+                    alternative-text="Loading Jira tasks"
+                    size="medium">
+                </lightning-spinner>
+
+            </div>
+
+        </template>
+
+
+        <!-- ===================================================== -->
+        <!-- KANBAN BOARD -->
+        <!-- ===================================================== -->
 
         <div class="slds-p-around_medium">
 
             <div class="slds-grid slds-wrap slds-gutters">
 
+
+                <!-- ================================================= -->
                 <!-- TO DO -->
+                <!-- ================================================= -->
+
                 <div class="slds-col slds-size_1-of-3">
+
                     <div class="column">
+
                         <h2 class="column-title">
                             To Do
                         </h2>
 
-                        <template for:each={todoTasks} for:item="task">
+
+                        <template
+                            for:each={todoTasks}
+                            for:item="task">
+
                             <div
                                 key={task.id}
-                                class="task-card slds-m-bottom_small">
+                                data-id={task.id}
+                                class="task-card slds-m-bottom_small"
+                                onclick={handleTaskClick}>
 
                                 <div class="task-key">
                                     {task.key}
                                 </div>
 
+
                                 <div class="task-summary">
                                     {task.summary}
                                 </div>
 
+
                                 <div class="task-info">
                                     Priority: {task.priority}
                                 </div>
+
 
                                 <div class="task-info">
                                     Assignee: {task.assignee}
                                 </div>
 
                             </div>
+
                         </template>
+
                     </div>
+
                 </div>
 
 
-                <!-- Done -->
+                <!-- ================================================= -->
+                <!-- IN PROGRESS -->
+                <!-- ================================================= -->
+
                 <div class="slds-col slds-size_1-of-3">
+
                     <div class="column">
+
                         <h2 class="column-title">
-                            Done
+                            In Progress
                         </h2>
 
-                        <template for:each={inProgressTasks} for:item="task">
+
+                        <template
+                            for:each={inProgressTasks}
+                            for:item="task">
+
                             <div
                                 key={task.id}
-                                class="task-card slds-m-bottom_small">
+                                data-id={task.id}
+                                class="task-card slds-m-bottom_small"
+                                onclick={handleTaskClick}>
 
                                 <div class="task-key">
                                     {task.key}
                                 </div>
 
+
                                 <div class="task-summary">
                                     {task.summary}
                                 </div>
 
+
                                 <div class="task-info">
                                     Priority: {task.priority}
                                 </div>
+
 
                                 <div class="task-info">
                                     Assignee: {task.assignee}
                                 </div>
 
                             </div>
+
                         </template>
+
                     </div>
+
                 </div>
 
 
+                <!-- ================================================= -->
                 <!-- DONE -->
+                <!-- ================================================= -->
+
                 <div class="slds-col slds-size_1-of-3">
+
                     <div class="column">
+
                         <h2 class="column-title">
                             Done
                         </h2>
 
-                        <template for:each={doneTasks} for:item="task">
+
+                        <template
+                            for:each={doneTasks}
+                            for:item="task">
+
                             <div
                                 key={task.id}
-                                class="task-card slds-m-bottom_small">
+                                data-id={task.id}
+                                class="task-card slds-m-bottom_small"
+                                onclick={handleTaskClick}>
 
                                 <div class="task-key">
                                     {task.key}
                                 </div>
 
+
                                 <div class="task-summary">
                                     {task.summary}
                                 </div>
 
+
                                 <div class="task-info">
                                     Priority: {task.priority}
                                 </div>
+
 
                                 <div class="task-info">
                                     Assignee: {task.assignee}
                                 </div>
 
                             </div>
+
                         </template>
+
                     </div>
+
                 </div>
 
             </div>
@@ -111,4 +255,261 @@
         </div>
 
     </lightning-card>
+
+
+    <!-- ========================================================= -->
+    <!-- STEP 8: CREATE SALESFORCE RECORD MODAL -->
+    <!-- ========================================================= -->
+
+    <template if:true={showModal}>
+
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="modal-heading"
+            class="slds-modal slds-fade-in-open">
+
+            <div class="slds-modal__container">
+
+
+                <!-- ================================================= -->
+                <!-- MODAL HEADER -->
+                <!-- ================================================= -->
+
+                <header class="slds-modal__header">
+
+                    <button
+                        class="slds-button slds-button_icon
+                               slds-modal__close"
+                        title="Close"
+                        onclick={closeModal}>
+
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="Close"
+                            size="small">
+                        </lightning-icon>
+
+                    </button>
+
+
+                    <h2
+                        id="modal-heading"
+                        class="slds-text-heading_medium">
+
+                        Create Salesforce Records
+
+                    </h2>
+
+                </header>
+
+
+                <!-- ================================================= -->
+                <!-- MODAL BODY -->
+                <!-- ================================================= -->
+
+                <div
+                    class="slds-modal__content
+                           slds-p-around_medium">
+
+                    <template if:true={selectedTask}>
+
+
+                        <!-- ========================================= -->
+                        <!-- JIRA TASK INFORMATION -->
+                        <!-- ========================================= -->
+
+                        <div class="slds-m-bottom_medium">
+
+                            <p>
+                                <strong>Jira Task:</strong>
+                                {selectedTask.key}
+                            </p>
+
+
+                            <p>
+                                <strong>Summary:</strong>
+                                {selectedTask.summary}
+                            </p>
+
+
+                            <p>
+                                <strong>Status:</strong>
+                                {selectedTask.status}
+                            </p>
+
+
+                            <p>
+                                <strong>Priority:</strong>
+                                {selectedTask.priority}
+                            </p>
+
+
+                            <p>
+                                <strong>Assignee:</strong>
+                                {selectedTask.assignee}
+                            </p>
+
+                        </div>
+
+
+                        <!-- ========================================= -->
+                        <!-- STEP 8.1: CREATE ACCOUNT -->
+                        <!-- ========================================= -->
+
+                        <template if:false={accountCreated}>
+
+                            <h3
+                                class="slds-text-heading_small
+                                       slds-m-bottom_small">
+
+                                Create Account
+
+                            </h3>
+
+
+                            <lightning-record-edit-form
+                                object-api-name="Account"
+                                onsuccess={handleAccountSuccess}
+                                onerror={handleAccountError}>
+
+                                <lightning-messages>
+                                </lightning-messages>
+
+
+                                <lightning-input-field
+                                    field-name="Name"
+                                    value={selectedTask.summary}>
+                                </lightning-input-field>
+
+
+                                <div class="slds-m-top_medium">
+
+                                    <lightning-button
+                                        type="submit"
+                                        variant="brand"
+                                        label="Create Account">
+                                    </lightning-button>
+
+                                </div>
+
+                            </lightning-record-edit-form>
+
+                        </template>
+
+
+                        <!-- ========================================= -->
+                        <!-- STEP 8.2: CREATE OPPORTUNITY -->
+                        <!-- ========================================= -->
+
+                        <template if:true={accountCreated}>
+
+
+                            <div
+                                class="slds-notify
+                                       slds-notify_alert
+                                       slds-alert_success
+                                       slds-m-bottom_medium"
+                                role="alert">
+
+                                <span class="slds-assistive-text">
+                                    Success
+                                </span>
+
+                                Account created successfully.
+
+                            </div>
+
+
+                            <h3
+                                class="slds-text-heading_small
+                                       slds-m-bottom_small">
+
+                                Create Opportunity
+
+                            </h3>
+
+
+                            <lightning-record-edit-form
+                                object-api-name="Opportunity"
+                                onsuccess={handleOpportunitySuccess}
+                                onerror={handleOpportunityError}>
+
+                                <lightning-messages>
+                                </lightning-messages>
+
+
+                                <!-- ACCOUNT RELATIONSHIP -->
+
+                                <lightning-input-field
+                                    field-name="AccountId"
+                                    value={accountId}>
+                                </lightning-input-field>
+
+
+                                <!-- OPPORTUNITY NAME -->
+
+                                <lightning-input-field
+                                    field-name="Name"
+                                    value={selectedTask.summary}>
+                                </lightning-input-field>
+
+
+                                <!-- OPPORTUNITY STAGE -->
+
+                                <lightning-input-field
+                                    field-name="StageName"
+                                    value={opportunityStage}>
+                                </lightning-input-field>
+
+
+                                <!-- CLOSE DATE -->
+
+                                <lightning-input-field
+                                    field-name="CloseDate">
+                                </lightning-input-field>
+
+
+                                <div class="slds-m-top_medium">
+
+                                    <lightning-button
+                                        type="submit"
+                                        variant="brand"
+                                        label="Create Opportunity">
+                                    </lightning-button>
+
+                                </div>
+
+                            </lightning-record-edit-form>
+
+                        </template>
+
+                    </template>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- MODAL FOOTER -->
+                <!-- ================================================= -->
+
+                <footer class="slds-modal__footer">
+
+                    <lightning-button
+                        label="Cancel"
+                        onclick={closeModal}>
+                    </lightning-button>
+
+                </footer>
+
+            </div>
+
+        </section>
+
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
 </template>
