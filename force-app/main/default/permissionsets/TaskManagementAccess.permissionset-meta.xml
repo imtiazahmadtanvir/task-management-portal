@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grants access to Task Management Portal Apex controllers and LWCs for non-admin users.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Task Management Access</label>
+    <classAccesses>
+        <apexClass>JiraTaskBoardController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactCreatorController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>JiraTaskSync</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+</PermissionSet>
